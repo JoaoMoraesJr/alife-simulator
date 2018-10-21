@@ -30,7 +30,7 @@ public class EnergyControll : MonoBehaviour {
         energy -= energyLose * Time.deltaTime;
 
         float resize = energy * 0.1f;
-        this.gameObject.transform.localScale = new Vector3 (resize, resize, 0);
+        //this.gameObject.transform.localScale = new Vector3 (resize, resize, 0);
 
         if (energy <= 0) Die();
     }

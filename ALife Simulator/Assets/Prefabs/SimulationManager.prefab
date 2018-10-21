@@ -127,6 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d54be6ee362fce4094aaa5570004caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 1948487812099878, guid: 9b908e1a1aee1094285bebdbebd6bcb3,
+    type: 2}
   foodPrefab: {fileID: 1880090015117368, guid: c701366a7cc34474783cf56d87f91b70, type: 2}
   simulationArea: {fileID: 4464427787115950}
   foodAmount: 50
+  populationSize: 1

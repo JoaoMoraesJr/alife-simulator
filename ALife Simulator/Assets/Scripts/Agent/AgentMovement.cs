@@ -16,7 +16,6 @@ public class AgentMovement : MonoBehaviour
     /// Event for when the car hit a wall.
     /// </summary>
     public event System.Action HitWall;
-    
 
 
     //Movement constants
@@ -30,6 +29,8 @@ public class AgentMovement : MonoBehaviour
     private float TURN_SPEED = 200;
    
     private AgentController controller;
+
+    public Transform walkableArea;
 
     /// <summary>
     /// The current velocity of the car.
@@ -143,8 +144,18 @@ public class AgentMovement : MonoBehaviour
         Vector3 direction = new Vector3(0, 1, 0);
         transform.rotation = Rotation;
         direction = Rotation * direction;
-
         this.transform.position += direction * Velocity * Time.deltaTime;
+
+        //Correct position according to walkable area.
+
+        if (this.transform.position.x > (walkableArea.position.x + walkableArea.localScale.x/2))
+            this.transform.position = new Vector3(walkableArea.position.x + walkableArea.localScale.x/2, this.transform.position.y, 0);
+        if (this.transform.position.x < (walkableArea.position.x - walkableArea.localScale.x/2))
+            this.transform.position = new Vector3(walkableArea.position.x - walkableArea.localScale.x/2, this.transform.position.y, 0);
+        if (this.transform.position.y > (walkableArea.position.y + walkableArea.localScale.y/2))
+            this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y + walkableArea.localScale.y/2, 0);
+        if (this.transform.position.y < (walkableArea.position.y - walkableArea.localScale.y/2))
+            this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y - walkableArea.localScale.y/2, 0);
     }
 
     // Applies some friction to velocity
