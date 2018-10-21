@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4486417380864274}
   - component: {fileID: 114922658509448600}
+  - component: {fileID: 114721249569125594}
   m_Layer: 0
   m_Name: SimulationManager
   m_TagString: Untagged
@@ -116,6 +117,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114721249569125594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1107331653293044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7515265e41ed9fd4b932c97f5ce2b2a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveStatistics: 0
+  SaveFirstNGenotype: 0
+  PopulationSize: 30
+  RestartAfter: 100
+  ElitistSelection: 0
+  FNNTopology: 020000000200000002000000
 --- !u!114 &114922658509448600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,9 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d54be6ee362fce4094aaa5570004caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentList: []
   agentPrefab: {fileID: 1948487812099878, guid: 9b908e1a1aee1094285bebdbebd6bcb3,
     type: 2}
   foodPrefab: {fileID: 1880090015117368, guid: c701366a7cc34474783cf56d87f91b70, type: 2}
   simulationArea: {fileID: 4464427787115950}
   foodAmount: 50
   populationSize: 1
+  simulationFinished: 0

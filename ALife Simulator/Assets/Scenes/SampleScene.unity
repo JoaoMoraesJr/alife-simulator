@@ -197,6 +197,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114721249569125594, guid: 95a246fadf8d9884fafff5905b1a209c,
+        type: 2}
+      propertyPath: FNNTopology.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4486417380864274, guid: 95a246fadf8d9884fafff5905b1a209c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -228,6 +233,25 @@ Prefab:
     - target: {fileID: 4486417380864274, guid: 95a246fadf8d9884fafff5905b1a209c, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721249569125594, guid: 95a246fadf8d9884fafff5905b1a209c,
+        type: 2}
+      propertyPath: FNNTopology.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721249569125594, guid: 95a246fadf8d9884fafff5905b1a209c,
+        type: 2}
+      propertyPath: FNNTopology.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721249569125594, guid: 95a246fadf8d9884fafff5905b1a209c,
+        type: 2}
+      propertyPath: FNNTopology.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492726066525280, guid: 95a246fadf8d9884fafff5905b1a209c, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95a246fadf8d9884fafff5905b1a209c, type: 2}

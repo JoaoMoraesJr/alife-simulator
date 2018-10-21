@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnergyControll : MonoBehaviour {
 
-    [SerializeField]
-    private float energy = 0f;
+    public float energy = 0;
 
     [SerializeField]
     private float startEnergy = 10f;
@@ -14,7 +13,7 @@ public class EnergyControll : MonoBehaviour {
     [SerializeField]
     private float energyLose = 2f;
 
-    private void Start()
+    private void Awake()
     {
         energy = startEnergy;
     }
@@ -32,11 +31,6 @@ public class EnergyControll : MonoBehaviour {
         float resize = energy * 0.1f;
         //this.gameObject.transform.localScale = new Vector3 (resize, resize, 0);
 
-        if (energy <= 0) Die();
     }
 
-    private void Die()
-    {
-        Destroy(this.gameObject);
-    }
 }

@@ -12,6 +12,7 @@ public class AgentController : MonoBehaviour
     #region Members
 
     private EnergyControll EnergyCtrl;
+    public bool isDead = false;
 
     #region IDGenerator
     // Used for unique ID generation
@@ -31,7 +32,7 @@ public class AgentController : MonoBehaviour
     /// <summary>
     /// The underlying AI agent of this car.
     /// </summary>
-   /* public Agent Agent
+    public Agent Agent
     {
         get;
         set;
@@ -42,7 +43,7 @@ public class AgentController : MonoBehaviour
         get { return Agent.Genotype.Evaluation; }
         set { Agent.Genotype.Evaluation = value; }
     }
-    */
+
     /// <summary>
     /// Whether this car is controllable by user input (keyboard).
     /// </summary>
@@ -89,7 +90,7 @@ public class AgentController : MonoBehaviour
     }
     void Start()
     {
-        Movement.HitWall += Die;
+        //Movement.HitWall += Die;
 
         //Set name to be unique
         this.name = "Agent (" + NextID + ")";
@@ -102,6 +103,7 @@ public class AgentController : MonoBehaviour
     /// </summary>
     public void Restart()
     {
+        SpriteRenderer.enabled = true;
         Movement.enabled = true;
         timeSinceLastCheckpoint = 0;
 
@@ -115,7 +117,7 @@ public class AgentController : MonoBehaviour
     // Unity method for normal update
     void Update()
     {
-        timeSinceLastCheckpoint += Time.deltaTime;
+        //timeSinceLastCheckpoint += Time.deltaTime;
     }
 
     // Unity method for physics update
@@ -132,10 +134,9 @@ public class AgentController : MonoBehaviour
             //double[] controlInputs = Agent.FNN.ProcessInputs(sensorOutput);
             Movement.SetInputs();//controlInputs);
         }
-
-        if (timeSinceLastCheckpoint > MAX_CHECKPOINT_DELAY)
+        if (EnergyCtrl.energy <= 0)
         {
-            //Die();
+            Die();
         }
     }
 
@@ -145,6 +146,7 @@ public class AgentController : MonoBehaviour
         this.enabled = false;
         Movement.Stop();
         Movement.enabled = false;
+        SpriteRenderer.enabled = false;
 
        // foreach (Sensor s in sensors)
          //   s.Hide();
@@ -160,7 +162,6 @@ public class AgentController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision!");
         if (other.tag == "Food")
         {
             EnergyCtrl.gainEnergy (other.gameObject.GetComponent<Food>().Kill());
@@ -176,6 +177,12 @@ public class AgentController : MonoBehaviour
 
     public void Kill()
     {
+        isDead = true;
+    }
+
+    public void DestroyAgent()
+    {
+
         Destroy(this.gameObject);
     }
 

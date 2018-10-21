@@ -15,7 +15,7 @@ public class AgentMovement : MonoBehaviour
     /// <summary>
     /// Event for when the car hit a wall.
     /// </summary>
-    public event System.Action HitWall;
+    //public event System.Action HitWall;
 
 
     //Movement constants
@@ -147,15 +147,21 @@ public class AgentMovement : MonoBehaviour
         this.transform.position += direction * Velocity * Time.deltaTime;
 
         //Correct position according to walkable area.
-
-        if (this.transform.position.x > (walkableArea.position.x + walkableArea.localScale.x/2))
-            this.transform.position = new Vector3(walkableArea.position.x + walkableArea.localScale.x/2, this.transform.position.y, 0);
-        if (this.transform.position.x < (walkableArea.position.x - walkableArea.localScale.x/2))
-            this.transform.position = new Vector3(walkableArea.position.x - walkableArea.localScale.x/2, this.transform.position.y, 0);
-        if (this.transform.position.y > (walkableArea.position.y + walkableArea.localScale.y/2))
-            this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y + walkableArea.localScale.y/2, 0);
-        if (this.transform.position.y < (walkableArea.position.y - walkableArea.localScale.y/2))
-            this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y - walkableArea.localScale.y/2, 0);
+        if (this.transform.position.x > (walkableArea.position.x + walkableArea.localScale.x / 2) ||
+            this.transform.position.x < (walkableArea.position.x - walkableArea.localScale.x / 2) ||
+            this.transform.position.y > (walkableArea.position.y + walkableArea.localScale.y / 2) ||
+            this.transform.position.y < (walkableArea.position.y - walkableArea.localScale.y / 2))
+        {
+            if (this.transform.position.x > (walkableArea.position.x + walkableArea.localScale.x / 2))
+                this.transform.position = new Vector3(walkableArea.position.x + walkableArea.localScale.x / 2, this.transform.position.y, 0);
+            if (this.transform.position.x < (walkableArea.position.x - walkableArea.localScale.x / 2))
+                this.transform.position = new Vector3(walkableArea.position.x - walkableArea.localScale.x / 2, this.transform.position.y, 0);
+            if (this.transform.position.y > (walkableArea.position.y + walkableArea.localScale.y / 2))
+                this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y + walkableArea.localScale.y / 2, 0);
+            if (this.transform.position.y < (walkableArea.position.y - walkableArea.localScale.y / 2))
+                this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y - walkableArea.localScale.y / 2, 0);
+            Stop();
+        }
     }
 
     // Applies some friction to velocity
@@ -179,11 +185,11 @@ public class AgentMovement : MonoBehaviour
     }
 
     // Unity method, triggered when collision was detected.
-    void OnCollisionEnter2D()
+    /*void OnCollisionEnter2D()
     {
         if (HitWall != null)
             HitWall();
-    }
+    }*/
 
     /// <summary>
     /// Stops all current movement of the car.
