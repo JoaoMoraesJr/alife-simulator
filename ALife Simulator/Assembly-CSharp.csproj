@@ -64,13 +64,13 @@
     <Compile Include="Assets\Scripts\Agent\AgentController.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentMovement.cs" />
     <Compile Include="Assets\Scripts\Agent\EnergyControll.cs" />
+    <Compile Include="Assets\Scripts\Agent\Sensor.cs" />
     <Compile Include="Assets\Scripts\AI\Agent.cs" />
     <Compile Include="Assets\Scripts\AI\Evolution\EvolutionManager.cs" />
     <Compile Include="Assets\Scripts\AI\Evolution\GeneticAlgorithm.cs" />
     <Compile Include="Assets\Scripts\AI\Evolution\Genotype.cs" />
     <Compile Include="Assets\Scripts\AI\NeuralNetworks\NeuralLayer.cs" />
     <Compile Include="Assets\Scripts\AI\NeuralNetworks\NeuralNetwork.cs" />
-    <Compile Include="Assets\Scripts\Food.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\GUI\UIController.cs" />
     <Compile Include="Assets\Scripts\GUI\UINeuralNetworkConnectionPanel.cs" />
@@ -79,8 +79,8 @@
     <Compile Include="Assets\Scripts\GUI\UISimulationController.cs" />
     <Compile Include="Assets\Scripts\GUI\UIStartMenuController.cs" />
     <Compile Include="Assets\Scripts\MathHelper.cs" />
-    <Compile Include="Assets\Scripts\Sensor.cs" />
-    <Compile Include="Assets\Scripts\SimulationManager.cs" />
+    <Compile Include="Assets\Scripts\Simulation\Food.cs" />
+    <Compile Include="Assets\Scripts\Simulation\SimulationManager.cs" />
     <Compile Include="Assets\Scripts\TrackManager.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Pichau/Desktop/Faculdade/TCC/alife-simulator/ALife Simulator/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
