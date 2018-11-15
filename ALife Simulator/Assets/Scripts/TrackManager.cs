@@ -39,6 +39,8 @@ public class TrackManager : MonoBehaviour
     private Vector3 startPosition;
     private Quaternion startRotation;
 
+    public int foodAmount;
+
     // Struct for storing the current cars and their position on the track.
     private class AlifeAgent
     {
@@ -51,6 +53,8 @@ public class TrackManager : MonoBehaviour
         public uint CheckpointIndex;
     }
     private List<AlifeAgent> alifes = new List<AlifeAgent>();
+
+    public List<Food> foodList = new List<Food>();
 
     /// <summary>
     /// The amount of cars currently on the track.
@@ -222,6 +226,15 @@ public class TrackManager : MonoBehaviour
 
     public void SpawnFood(int amount)
     {
+        if (foodList.Count > 1)
+        {
+            foreach (Food f in foodList)
+            {
+                if (f != null)
+                Destroy(f.gameObject);
+            }
+            foodList.Clear();
+        }
         GameObject simulationAreaObj = new GameObject();
         Transform simulationArea = simulationAreaObj.transform;
         simulationArea.position = new Vector3(0, 0, 0);
@@ -230,7 +243,10 @@ public class TrackManager : MonoBehaviour
         {
             var food = Instantiate(PrototypeFood);
             food.transform.position = simulationArea.position + new Vector3(UnityEngine.Random.Range(-1f, 1f) * simulationArea.localScale.x / 2, UnityEngine.Random.Range(-1f, 1f) * simulationArea.localScale.y / 2, 0);
+            foodList.Add(food);
         }
+        Destroy(simulationAreaObj);
+        Destroy(simulationArea);
     }
 
     /// <summary>
@@ -238,7 +254,7 @@ public class TrackManager : MonoBehaviour
     /// </summary>
     public void Restart()
     {
-        SpawnFood(50);
+        SpawnFood(foodAmount);
         foreach (AlifeAgent alife in alifes)
         {
             alife.Alife.transform.position = startPosition;

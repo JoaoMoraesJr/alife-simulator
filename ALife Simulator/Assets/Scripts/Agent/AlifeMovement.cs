@@ -144,6 +144,7 @@ public class AlifeMovement : MonoBehaviour
         //CheckInput();
         horizontalInput = input[0];
         verticalInput = input[1];
+        //Debug.Log("h: " + horizontalInput + " v:" + verticalInput);
     }
 
     // Applies the current velocity to the position of the car.
@@ -175,7 +176,7 @@ public class AlifeMovement : MonoBehaviour
                 this.transform.position = new Vector3(this.transform.position.x, walkableArea.position.y - walkableArea.localScale.y / 2, 0);
             Stop();
         }
-        
+        Destroy(simulationAreaObj);
     }
 
     // Applies some friction to velocity

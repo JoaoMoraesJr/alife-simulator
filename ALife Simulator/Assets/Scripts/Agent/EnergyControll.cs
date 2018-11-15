@@ -17,6 +17,11 @@ public class EnergyControll : MonoBehaviour {
     {
         energy = startEnergy;
     }
+
+    public void Restart ()
+    {
+        energy = startEnergy;
+    }
     public void gainEnergy (float gain)
     {
         energy += gain;

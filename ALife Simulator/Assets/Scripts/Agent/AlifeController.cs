@@ -15,6 +15,8 @@ public class AlifeController : MonoBehaviour
     private EnergyControll EnergyCtrl;
     public bool isDead = false;
 
+    private int generation = 0;
+
     #region IDGenerator
     // Used for unique ID generation
     private static int idGenerator = 0;
@@ -107,12 +109,14 @@ public class AlifeController : MonoBehaviour
         SpriteRenderer.enabled = true;
         Movement.enabled = true;
         timeSinceLastCheckpoint = 0;
-
+        EnergyCtrl.Restart();
+        timeAlive = 0;
         //foreach (Sensor s in sensors)
          //   s.Show();
 
         Agent.Reset();
         this.enabled = true;
+        Debug.Log(Agent.FNN.ToString());
     }
 
     // Unity method for normal update
@@ -129,18 +133,26 @@ public class AlifeController : MonoBehaviour
         if (!UseUserInput)
         {
             //Get readings from sensors
-            double[] sensorOutput = new double[sensors.Length];
+            double[] NNInputs = new double[sensors.Length + 1];
             for (int i = 0; i < sensors.Length; i++)
             {
-                sensorOutput[i] = sensors[i].Output;
+                NNInputs[i] = sensors[i].Output;
                 //Debug.Log(sensorOutput[i]);
             }
-
+            NNInputs[sensors.Length] = EnergyCtrl.energy;
             //Debug.Log(Agent.FNN.ToString());
-            double[] controlInputs = Agent.FNN.ProcessInputs(sensorOutput);
+            double[] controlInputs = Agent.FNN.ProcessInputs(NNInputs);
             //Movement.SetInputs();//controlInputs);
+            //Debug.Log("sensor1: " + NNInputs[0] + " energy: " + NNInputs[1] + " h: " + controlInputs[0] + " v:" + controlInputs[1]);
             Movement.SetInputs(controlInputs);
+            string s = " ";
+            for (int i = 0; i < NNInputs.Length; i++)
+            {
+                s += " " + i + ": " + NNInputs[i];
+            }
+            //Debug.Log(s);
         }
+
         if (EnergyCtrl.energy <= 0)
         {
             Die();
@@ -155,10 +167,11 @@ public class AlifeController : MonoBehaviour
         Movement.enabled = false;
         SpriteRenderer.enabled = false;
 
-       // foreach (Sensor s in sensors)
-         //   s.Hide();
-
-        Agent.Kill();
+        // foreach (Sensor s in sensors)
+        //   s.Hide();
+        //Debug.Log(Agent.Genotype.Fitness);
+        Agent.Genotype.Fitness = timeAlive;
+        Agent.Kill(timeAlive);
     }
 
     public void CheckpointCaptured()

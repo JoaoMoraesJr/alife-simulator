@@ -4,6 +4,8 @@
 #region Includes
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 #endregion
 
 /// <summary>
@@ -12,6 +14,10 @@ using System.Collections.Generic;
 public class GeneticAlgorithm
 {
     #region Members
+
+    float bestGenerationEvaluation = 0;
+    float bestGeneration = 0;
+
     #region Default Parameters
     /// <summary>
     /// Default min value of inital population parameters.
@@ -113,7 +119,7 @@ public class GeneticAlgorithm
     public CheckTerminationCriterion TerminationCriterion = null;
     #endregion
 
-    private static Random randomizer = new Random();
+    private static System.Random randomizer = new System.Random();
 
     private List<Genotype> currentPopulation;
 
@@ -164,7 +170,7 @@ public class GeneticAlgorithm
     public event System.Action<IEnumerable<Genotype>> FitnessCalculationFinished;
 
     #endregion
-
+    
     #region Constructors
     /// <summary>
     /// Initialises a new genetic algorithm instance, creating a initial population of given size with genotype
@@ -201,10 +207,27 @@ public class GeneticAlgorithm
         Evaluation(currentPopulation);
     }
 
-    public void EvaluationFinished()
+    public float bestGenerationAnalyze(IEnumerable<Genotype> currentPopulation)
     {
+        foreach (Genotype genotype in currentPopulation)
+        {
+            //UnityEngine.Debug.Log("Ev: " + genotype.Evaluation);
+            if (genotype.Evaluation > bestGenerationEvaluation)
+            {
+                bestGenerationEvaluation = genotype.Evaluation;
+                bestGeneration = GenerationCount;
+            }
+        }
+        return bestGenerationEvaluation;
+    }
+
+        public void EvaluationFinished()
+    {
+        UnityEngine.Debug.Log("Generation: " + GenerationCount);
         //Calculate fitness from evaluation
         FitnessCalculationMethod(currentPopulation);
+
+        UnityEngine.Debug.Log("Best Generation Evaluation: " + bestGenerationAnalyze(currentPopulation) + " on generation " + bestGeneration);
 
         //Sort population if flag was set
         if (SortPopulation)
@@ -269,16 +292,21 @@ public class GeneticAlgorithm
     /// <param name="currentPopulation">The current population.</param>
     public static void DefaultFitnessCalculation(IEnumerable<Genotype> currentPopulation)
     {
+        //UnityEngine.Debug.Log("Heey");
         //First calculate average evaluation of whole population
         uint populationSize = 0;
         float overallEvaluation = 0;
+        float bestEvaluation = 0;
         foreach (Genotype genotype in currentPopulation)
         {
+            //UnityEngine.Debug.Log("Ev: " + genotype.Evaluation);
+            if (genotype.Evaluation > bestEvaluation) bestEvaluation = genotype.Evaluation;
             overallEvaluation += genotype.Evaluation;
             populationSize++;
         }
 
         float averageEvaluation = overallEvaluation / populationSize;
+        UnityEngine.Debug.Log("Average Evaluation: " + averageEvaluation + " - Best Evaluation: " + bestEvaluation);
 
         //Now assign fitness with formula fitness = evaluation / averageEvaluation
         foreach (Genotype genotype in currentPopulation)

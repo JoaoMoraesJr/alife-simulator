@@ -4,6 +4,7 @@
 #region Includes
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 #endregion
 
 /// <summary>
@@ -103,8 +104,10 @@ public class Agent : IComparable<Agent>
     /// <summary>
     /// Kills this agent (sets IsAlive to false).
     /// </summary>
-    public void Kill()
+    public void Kill(float time)
     {
+        Genotype.Evaluation = time;
+        //Debug.Log("Dead in agent");
         IsAlive = false;
     }
 

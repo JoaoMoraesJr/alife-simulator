@@ -244,7 +244,7 @@ public class EvolutionManager : MonoBehaviour
     private void OnAgentDied(Agent agent)
     {
         AgentsAliveCount--;
-        Debug.Log("Hey");
+        //Debug.Log("Hey");
         if (AgentsAliveCount == 0 && AllAgentsDied != null)
             AllAgentsDied();
     }
@@ -258,6 +258,7 @@ public class EvolutionManager : MonoBehaviour
         //Assumes that currentPopulation is already sorted
         foreach (Genotype genotype in currentPopulation)
         {
+
             if (genotype.Fitness < 1)
                 break;
             else
@@ -270,6 +271,7 @@ public class EvolutionManager : MonoBehaviour
         //Put remainder portion of genotypes into intermediatePopulation
         foreach (Genotype genotype in currentPopulation)
         {
+            //Debug.Log(genotype.Fitness);
             float remainder = genotype.Fitness - (int)genotype.Fitness;
             if (randomizer.NextDouble() < remainder)
                 intermediatePopulation.Add(new Genotype(genotype.GetParameterCopy()));
