@@ -4,6 +4,7 @@
 #region Includes
 using System;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 #endregion
 
@@ -32,55 +33,56 @@ public class TrackManager : MonoBehaviour
     /// <summary>
     /// Car used to create new cars and to set start position.
     /// </summary>
-    public AgentController PrototypeCar;
+    public AlifeController PrototypeAlife;
+    public Food PrototypeFood;
     // Start position for cars
     private Vector3 startPosition;
     private Quaternion startRotation;
 
     // Struct for storing the current cars and their position on the track.
-    private class RaceCar
+    private class AlifeAgent
     {
-        public RaceCar(AgentController car = null, uint checkpointIndex = 1)
+        public AlifeAgent(AlifeController alife = null, uint checkpointIndex = 1)
         {
-            this.Car = car;
+            this.Alife = alife;
             this.CheckpointIndex = checkpointIndex;
         }
-        public AgentController Car;
+        public AlifeController Alife;
         public uint CheckpointIndex;
     }
-    private List<RaceCar> cars = new List<RaceCar>();
+    private List<AlifeAgent> alifes = new List<AlifeAgent>();
 
     /// <summary>
     /// The amount of cars currently on the track.
     /// </summary>
-    public int CarCount
+    public int AlifeCount
     {
-        get { return cars.Count; }
+        get { return alifes.Count; }
     }
 
     #region Best and Second best
-    private AgentController bestCar = null;
+    private AlifeController bestAlife = null;
     /// <summary>
     /// The current best car (furthest in the track).
     /// </summary>
-    public AgentController BestCar
+    public AlifeController BestAlife
     {
-        get { return bestCar; }
+        get { return bestAlife; }
         private set
         {
-            if (bestCar != value)
+            if (bestAlife != value)
             {
                 //Update appearance
-                if (BestCar != null)
-                    BestCar.SpriteRenderer.sprite = NormalCarSprite;
+                if (BestAlife != null)
+                    BestAlife.SpriteRenderer.sprite = NormalCarSprite;
                 if (value != null)
                     value.SpriteRenderer.sprite = BestCarSprite;
 
                 //Set previous best to be second best now
-                AgentController previousBest = bestCar;
-                bestCar = value;
+                AlifeController previousBest = bestAlife;
+                bestAlife = value;
                 if (BestCarChanged != null)
-                    BestCarChanged(bestCar);
+                    BestCarChanged(bestAlife);
 
                 SecondBestCar = previousBest;
             }
@@ -89,13 +91,13 @@ public class TrackManager : MonoBehaviour
     /// <summary>
     /// Event for when the best car has changed.
     /// </summary>
-    public event System.Action<AgentController> BestCarChanged;
+    public event System.Action<AlifeController> BestCarChanged;
 
-    private AgentController secondBestCar = null;
+    private AlifeController secondBestCar = null;
     /// <summary>
     /// The current second best car (furthest in the track).
     /// </summary>
-    public AgentController SecondBestCar
+    public AlifeController SecondBestCar
     {
         get { return secondBestCar; }
         private set
@@ -103,7 +105,7 @@ public class TrackManager : MonoBehaviour
             if (SecondBestCar != value)
             {
                 //Update appearance of car
-                if (SecondBestCar != null && SecondBestCar != BestCar)
+                if (SecondBestCar != null && SecondBestCar != BestAlife)
                     SecondBestCar.SpriteRenderer.sprite = NormalCarSprite;
                 if (value != null)
                     value.SpriteRenderer.sprite = SecondBestSprite;
@@ -117,7 +119,7 @@ public class TrackManager : MonoBehaviour
     /// <summary>
     /// Event for when the second best car has changed.
     /// </summary>
-    public event System.Action<AgentController> SecondBestCarChanged;
+    public event System.Action<AlifeController> SecondBestCarChanged;
     #endregion
 
     
@@ -147,9 +149,9 @@ public class TrackManager : MonoBehaviour
         //checkpoints = GetComponentsInChildren<Checkpoint>();
 
         //Set start position and hide prototype
-        startPosition = PrototypeCar.transform.position;
-        startRotation = PrototypeCar.transform.rotation;
-        PrototypeCar.gameObject.SetActive(false);
+        startPosition = PrototypeAlife.transform.position;
+        startRotation = PrototypeAlife.transform.rotation;
+        PrototypeAlife.gameObject.SetActive(false);
 
        // CalculateCheckpointPercentages();
     }
@@ -167,10 +169,10 @@ public class TrackManager : MonoBehaviour
     void Update()
     {
         //Update reward for each enabled car on the track
-        for (int i = 0; i < cars.Count; i++)
+        for (int i = 0; i < alifes.Count; i++)
         {
-            RaceCar car = cars[i];
-            if (car.Car.enabled)
+            AlifeAgent car = alifes[i];
+            if (car.Alife.enabled)
             {
                 //car.Car.CurrentCompletionReward = GetCompletePerc(car.Car, ref car.CheckpointIndex);
 
@@ -185,36 +187,49 @@ public class TrackManager : MonoBehaviour
         }
     }
 
-    public void SetCarAmount(int amount)
+    public void SetAlifeAmount(int amount)
     {
         //Check arguments
         if (amount < 0) throw new ArgumentException("Amount may not be less than zero.");
 
-        if (amount == CarCount) return;
+        if (amount == AlifeCount) return;
 
-        if (amount > cars.Count)
+        if (amount > alifes.Count)
         {
             //Add new cars
-            for (int toBeAdded = amount - cars.Count; toBeAdded > 0; toBeAdded--)
+            for (int toBeAdded = amount - alifes.Count; toBeAdded > 0; toBeAdded--)
             {
-                GameObject carCopy = Instantiate(PrototypeCar.gameObject);
-                carCopy.transform.position = startPosition;
-                carCopy.transform.rotation = startRotation;
-                AgentController controllerCopy = carCopy.GetComponent<AgentController>();
-                cars.Add(new RaceCar(controllerCopy, 1));
-                carCopy.SetActive(true);
+                GameObject alifeCopy = Instantiate(PrototypeAlife.gameObject);
+                alifeCopy.transform.position = startPosition;
+                alifeCopy.transform.rotation = startRotation;
+                AlifeController controllerCopy = alifeCopy.GetComponent<AlifeController>();
+                alifes.Add(new AlifeAgent(controllerCopy, 1));
+                alifeCopy.SetActive(true);
             }
         }
-        else if (amount < cars.Count)
+        else if (amount < alifes.Count)
         {
             //Remove existing cars
-            for (int toBeRemoved = cars.Count - amount; toBeRemoved > 0; toBeRemoved--)
+            for (int toBeRemoved = alifes.Count - amount; toBeRemoved > 0; toBeRemoved--)
             {
-                RaceCar last = cars[cars.Count - 1];
-                cars.RemoveAt(cars.Count - 1);
+                AlifeAgent last = alifes[alifes.Count - 1];
+                alifes.RemoveAt(alifes.Count - 1);
 
-                Destroy(last.Car.gameObject);
+                Destroy(last.Alife.gameObject);
             }
+        }
+    }
+
+    public void SpawnFood(int amount)
+    {
+        GameObject simulationAreaObj = new GameObject();
+        Transform simulationArea = simulationAreaObj.transform;
+        simulationArea.position = new Vector3(0, 0, 0);
+        simulationArea.localScale = new Vector3(15, 9, 1);
+        for (int i = 0; i < amount; i++)
+        {
+            var food = Instantiate(PrototypeFood);
+            food.transform.position = simulationArea.position + new Vector3(UnityEngine.Random.Range(-1f, 1f) * simulationArea.localScale.x / 2, UnityEngine.Random.Range(-1f, 1f) * simulationArea.localScale.y / 2, 0);
         }
     }
 
@@ -223,25 +238,26 @@ public class TrackManager : MonoBehaviour
     /// </summary>
     public void Restart()
     {
-        foreach (RaceCar car in cars)
+        SpawnFood(50);
+        foreach (AlifeAgent alife in alifes)
         {
-            car.Car.transform.position = startPosition;
-            car.Car.transform.rotation = startRotation;
-            car.Car.Restart();
-            car.CheckpointIndex = 1;
+            alife.Alife.transform.position = startPosition;
+            alife.Alife.transform.rotation = startRotation;
+            alife.Alife.Restart();
+            alife.CheckpointIndex = 1;
         }
 
-        BestCar = null;
+        BestAlife = null;
         SecondBestCar = null;
     }
 
     /// <summary>
     /// Returns an Enumerator for iterator through all cars currently on the track.
     /// </summary>
-    public IEnumerator<AgentController> GetCarEnumerator()
+    public IEnumerator<AlifeController> GetAlifeEnumerator()
     {
-        for (int i = 0; i < cars.Count; i++)
-            yield return cars[i].Car;
+        for (int i = 0; i < alifes.Count; i++)
+            yield return alifes[i].Alife;
     }
 
     /// <summary>

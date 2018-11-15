@@ -35,7 +35,7 @@ public class GameStateManager : MonoBehaviour
         private set;
     }
 
-    private AgentController prevBest, prevSecondBest;
+    private AlifeController prevBest, prevSecondBest;
     #endregion
 
     #region Constructors
@@ -49,10 +49,10 @@ public class GameStateManager : MonoBehaviour
         Instance = this;
 
         //Load gui scene
-        SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
 
         //Load track
-        SceneManager.LoadScene(TrackName, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(TrackName, LoadSceneMode.Additive);
     }
 
     void Start ()

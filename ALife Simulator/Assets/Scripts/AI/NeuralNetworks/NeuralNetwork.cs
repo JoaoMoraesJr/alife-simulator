@@ -3,6 +3,7 @@
 
 #region Includes
 using System;
+using UnityEngine;
 #endregion
 
 /// <summary>
@@ -14,6 +15,8 @@ public class NeuralNetwork
     /// <summary>
     /// The individual neural layers of this network.
     /// </summary>
+    /// 
+
     public NeuralLayer[] Layers
     {
         get;
@@ -70,6 +73,8 @@ public class NeuralNetwork
     public double[] ProcessInputs(double[] inputs)
     {
         //Check arguments
+        //Debug.Log("inputs: " + inputs.Length + " " + Layers[0].NeuronCount);
+
         if (inputs.Length != Layers[0].NeuronCount)
             throw new ArgumentException("Given inputs do not match network input amount.");
 

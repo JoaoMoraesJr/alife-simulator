@@ -14,11 +14,11 @@ using System;
 public class UISimulationController : MonoBehaviour
 {
     #region Members
-    private AgentController target;
+    private AlifeController target;
     /// <summary>
     /// The Car to fill the GUI data with.
     /// </summary>
-    public AgentController Target
+    public AlifeController Target
     {
         get { return target; }
         set

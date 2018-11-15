@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimulationManager : MonoBehaviour {
 
-    public List<AgentController> agentList = new List<AgentController>();
+    public List<AlifeController> agentList = new List<AlifeController>();
     public GameObject agentPrefab;
     public GameObject foodPrefab;
     public Transform simulationArea;
@@ -22,7 +22,7 @@ public class SimulationManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Debug.Log(agentList.Count);
-        foreach (AgentController a in agentList)
+        foreach (AlifeController a in agentList)
         {
             if (a.isDead == true)
             {
@@ -42,8 +42,8 @@ public class SimulationManager : MonoBehaviour {
         {
             var agent = Instantiate(agentPrefab);
             agent.transform.position = simulationArea.position + new Vector3(Random.Range(-1f, 1f) * simulationArea.localScale.x / 2, Random.Range(-1f, 1f) * simulationArea.localScale.y / 2, 0);
-            agent.GetComponent<AgentMovement>().walkableArea = simulationArea;
-            agentList.Add(agent.GetComponent<AgentController>());
+            //agent.GetComponent<AlifeMovement>().walkableArea = simulationArea;
+            agentList.Add(agent.GetComponent<AlifeController>());
         }
     }
 

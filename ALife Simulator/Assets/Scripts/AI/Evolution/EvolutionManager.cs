@@ -37,6 +37,9 @@ public class EvolutionManager : MonoBehaviour
     [SerializeField]
     private int PopulationSize = 30;
 
+    [SerializeField]
+    private int FoodAmount = 50;
+
     // After how many generations should the genetic algorithm be restart (0 for never), to be set in Unity Editor
     [SerializeField]
     private int RestartAfter = 100;
@@ -213,31 +216,35 @@ public class EvolutionManager : MonoBehaviour
         foreach (Genotype genotype in currentPopulation)
             agents.Add(new Agent(genotype, MathHelper.SoftSignFunction, FNNTopology));
 
-        //TrackManager.Instance.SetCarAmount(agents.Count);
-        /*
-        IEnumerator<CarController> carsEnum = TrackManager.Instance.GetCarEnumerator();
+        //TrackManager.Instance.SetAlifeAmount(agents.Count);
+        //TrackManager.Instance.SpawnFood(FoodAmount);
+        TrackManager TManager = TrackManager.Instance;
+        TManager.SetAlifeAmount(agents.Count);
+        //TManager.SpawnFood(FoodAmount);
+
+        IEnumerator<AlifeController> alifesEnum = TrackManager.Instance.GetAlifeEnumerator();
         for (int i = 0; i < agents.Count; i++)
         {
-            if (!carsEnum.MoveNext())
+            if (!alifesEnum.MoveNext())
             {
                 Debug.LogError("Cars enum ended before agents.");
                 break;
             }
 
-            carsEnum.Current.Agent = agents[i];
+            alifesEnum.Current.Agent = agents[i];
             AgentsAliveCount++;
             agents[i].AgentDied += OnAgentDied;
         }
 
-        //TrackManager.Instance.Restart();
-        */
+        TrackManager.Instance.Restart();
+        
     }
 
     // Callback for when an agent died.
     private void OnAgentDied(Agent agent)
     {
         AgentsAliveCount--;
-
+        Debug.Log("Hey");
         if (AgentsAliveCount == 0 && AllAgentsDied != null)
             AllAgentsDied();
     }

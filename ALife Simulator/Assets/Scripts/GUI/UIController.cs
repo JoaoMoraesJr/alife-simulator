@@ -44,7 +44,7 @@ public class UIController : MonoBehaviour
     /// Sets the CarController from which to get the data from to be displayed.
     /// </summary>
     /// <param name="target">The CarController to display the data of.</param>
-    public void SetDisplayTarget(AgentController target)
+    public void SetDisplayTarget(AlifeController target)
     {
         simulationUI.Target = target;
     }

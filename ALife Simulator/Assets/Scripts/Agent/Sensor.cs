@@ -50,7 +50,8 @@ public class Sensor : MonoBehaviour
 
         //Send raycast into direction of sensor
         RaycastHit hit;
-        Physics.Raycast(this.transform.position, direction, out hit, MAX_DIST);
+        //Debug.Log(LayerMask.GetMask("Food"));
+        Physics.Raycast(this.transform.position, direction, out hit, MAX_DIST, LayerMask.GetMask("Food"));
 
         //Check distance
 
