@@ -17,6 +17,8 @@ public class GeneticAlgorithm
 
     float bestGenerationEvaluation = 0;
     float bestGeneration = 0;
+    
+    //float currentAverageEvaluation = 0;
 
     #region Default Parameters
     /// <summary>
@@ -140,6 +142,10 @@ public class GeneticAlgorithm
         get;
         private set;
     }
+    
+    public float currentAverageEvaluation;
+    public float bestAverageEvaluation = 0;
+    public float bestAverageGeneration;
 
     /// <summary>
     /// Whether the current population shall be sorted before calling the termination criterion operator.
@@ -220,12 +226,33 @@ public class GeneticAlgorithm
         }
         return bestGenerationEvaluation;
     }
+    
+        public float calculateAverageEvaluation(IEnumerable<Genotype> currentPopulation)
+    {
+    	float overallEvaluation = 0;
+    	int populationSize = 0;
+         foreach (Genotype genotype in currentPopulation)
+        {
+            overallEvaluation += genotype.Evaluation;
+            populationSize++;
+        }
+
+        float averageEvaluation = overallEvaluation / populationSize;
+        if (averageEvaluation > bestAverageEvaluation) {
+			bestAverageEvaluation = averageEvaluation;
+        	bestAverageGeneration = GenerationCount;
+    	}
+        currentAverageEvaluation = averageEvaluation;
+        UnityEngine.Debug.Log ("Best Average Evaluation = " + bestAverageEvaluation + " on generation " + bestAverageGeneration);
+        return currentAverageEvaluation;
+    }
 
         public void EvaluationFinished()
     {
         UnityEngine.Debug.Log("Generation: " + GenerationCount);
         //Calculate fitness from evaluation
         FitnessCalculationMethod(currentPopulation);
+        calculateAverageEvaluation (currentPopulation);
 
         UnityEngine.Debug.Log("Best Generation Evaluation: " + bestGenerationAnalyze(currentPopulation) + " on generation " + bestGeneration);
 

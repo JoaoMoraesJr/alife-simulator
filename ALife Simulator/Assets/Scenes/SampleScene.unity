@@ -463,12 +463,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7515265e41ed9fd4b932c97f5ce2b2a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SaveStatistics: 0
+  SaveStatistics: 1
   SaveFirstNGenotype: 0
   PopulationSize: 8
-  FoodAmount: 50
-  RestartAfter: 100
-  ElitistSelection: 0
+  RestartAfter: 0
+  ElitistSelection: 1
   FNNTopology: 0400000005000000040000000300000002000000
 --- !u!4 &1374633771
 Transform:
@@ -534,7 +533,7 @@ MonoBehaviour:
     type: 2}
   PrototypeFood: {fileID: 114145777711894480, guid: c701366a7cc34474783cf56d87f91b70,
     type: 2}
-  foodAmount: 100
+  foodAmount: 1000
   foodList: []
 --- !u!4 &1819595810
 Transform:

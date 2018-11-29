@@ -37,8 +37,6 @@ public class EvolutionManager : MonoBehaviour
     [SerializeField]
     private int PopulationSize = 30;
 
-    [SerializeField]
-    private int FoodAmount = 50;
 
     // After how many generations should the genetic algorithm be restart (0 for never), to be set in Unity Editor
     [SerializeField]
@@ -158,7 +156,7 @@ public class EvolutionManager : MonoBehaviour
     {
         foreach (Genotype genotype in currentPopulation)
         {
-            File.AppendAllText(statisticsFileName + ".txt", geneticAlgorithm.GenerationCount + "\t" + genotype.Evaluation + Environment.NewLine);
+            File.AppendAllText(statisticsFileName + ".txt", geneticAlgorithm.GenerationCount + "\t" + geneticAlgorithm.currentAverageEvaluation + "\t" + genotype.Evaluation + Environment.NewLine);
             break; //Only write first
         }
     }

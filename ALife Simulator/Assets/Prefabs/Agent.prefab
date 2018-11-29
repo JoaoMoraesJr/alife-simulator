@@ -282,7 +282,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   SensorLimit: {fileID: 1995313266632560}
-  MAX_DIST: 1.5
+  MAX_DIST: 2
 --- !u!114 &114621928838126152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,7 +298,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   SensorLimit: {fileID: 1227108438361888}
-  MAX_DIST: 1.5
+  MAX_DIST: 2
 --- !u!114 &114759144701655898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -314,7 +314,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   SensorLimit: {fileID: 1121304401052290}
-  MAX_DIST: 1.5
+  MAX_DIST: 2
 --- !u!114 &114813826628032406
 MonoBehaviour:
   m_ObjectHideFlags: 1
